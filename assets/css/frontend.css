@@ -1,0 +1,335 @@
+/**
+ * Skein Configurator Frontend Styles
+ */
+
+/* ============================================
+   Image Overlay Wrapper
+   ============================================ */
+
+.skein-image-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.skein-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    mix-blend-mode: multiply;
+    z-index: 1;
+}
+
+/* ============================================
+   Configurator Container
+   ============================================ */
+
+/* .skein-configurator {
+    margin: 30px 0;
+    padding: 25px;
+    background: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+} */
+
+.skein-configurator-error {
+    padding: 20px;
+    background: #fff3cd;
+    border: 1px solid #ffc107;
+    border-radius: 4px;
+    color: #856404;
+}
+
+.skein-section {
+    margin-bottom: 30px;
+}
+
+.skein-section:last-child {
+    margin-bottom: 0;
+}
+
+.skein-section-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 15px 0;
+    color: #333;
+}
+
+/* ============================================
+   Length Selection
+   ============================================ */
+
+/* .skein-length-dropdown-wrapper {
+    background: #fff;
+    padding: 15px;
+    border-radius: 6px;
+    border: 1px solid #e0e0e0;
+} */
+
+.skein-length-select {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 16px;
+    color: #333;
+    background: #fff;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 20px;
+    padding-right: 40px;
+}
+
+.skein-length-select:hover {
+    border-color: #999;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.skein-length-select:focus {
+    outline: none;
+    border-color: #0071a1;
+    box-shadow: 0 0 0 3px rgba(0, 113, 161, 0.1);
+}
+
+.skein-length-select option {
+    padding: 10px;
+    font-size: 16px;
+}
+
+/* ============================================
+   Color Slots
+   ============================================ */
+
+/* .skein-color-slots-wrapper {
+    background: #fff;
+    padding: 20px;
+    border-radius: 6px;
+    border: 1px solid #e0e0e0;
+} */
+
+.skein-slots-instruction {
+    margin: 0 0 15px 0;
+    color: #666;
+    font-size: 14px;
+    font-style: italic;
+}
+
+.skein-color-slots {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.skein-color-slot {
+    width: 90px;
+    height: 90px;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    background: #f5f5f5;
+}
+
+.skein-color-slot:hover {
+    border-color: #999;
+    background: #ebebeb;
+    transform: scale(1.02);
+}
+
+.skein-color-slot.empty {
+    background: #f5f5f5;
+}
+
+.skein-color-slot.filled {
+    border-style: solid;
+    border-color: #333;
+    cursor: move;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.skein-color-slot.filled:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.skein-color-slot .slot-number {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 24px;
+    height: 24px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: #333;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.skein-color-slot .slot-name {
+    padding: 4px 8px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    text-align: center;
+    max-width: 90%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #333;
+}
+
+.skein-color-slot.empty .slot-name {
+    color: #999;
+}
+
+.skein-slot-placeholder {
+    background: #e0e0e0;
+    border: 2px dashed #999;
+}
+
+/* ============================================
+   Sortable UI States
+   ============================================ */
+
+.ui-sortable-helper {
+    opacity: 0.8 !important;
+    z-index: 1000 !important;
+}
+
+.ui-sortable-placeholder {
+    background: #e0e0e0 !important;
+    border: 2px dashed #999 !important;
+    visibility: visible !important;
+}
+
+.skein-color-slots {
+    position: relative;
+}
+
+/* ============================================
+   Responsive Design
+   ============================================ */
+
+@media (max-width: 768px) {
+    /* .skein-configurator {
+        padding: 20px 15px;
+    } */
+    
+    .skein-color-slots {
+        justify-content: center;
+    }
+    
+    .skein-color-slot {
+        width: 80px;
+        height: 80px;
+    }
+}
+
+@media (max-width: 480px) {
+    .skein-color-slot {
+        width: 70px;
+        height: 70px;
+    }
+}
+
+/* ============================================
+   SweetAlert2 Modal Customization
+   ============================================ */
+
+.swal-color-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.swal-color-option {
+    aspect-ratio: 1;
+    border: 3px solid transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: flex-end;
+    padding: 0;
+}
+
+.swal-color-option:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    border-color: #333;
+}
+
+.empty-slot-option {
+    background: #f5f5f5 !important;
+    border: 2px dashed #ccc !important;
+    box-shadow: none !important;
+}
+
+.empty-slot-option:hover {
+    border-color: #999 !important;
+    background: #e8e8e8 !important;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+}
+
+.empty-slot-option span {
+    background: rgba(0, 0, 0, 0.6) !important;
+    color: #fff !important;
+}
+
+.swal-color-option span {
+    width: 100%;
+    padding: 6px 8px;
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    font-size: 12px;
+    text-align: center;
+    font-weight: 500;
+}
+
+.skein-swal-popup {
+    border-radius: 12px;
+}
+
+.skein-swal-html {
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.skein-swal-deny {
+    background-color: #f44336 !important;
+}
+
+.skein-swal-deny:hover {
+    background-color: #d32f2f !important;
+}
+
+@media (max-width: 480px) {
+    .swal-color-grid {
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    }
+}

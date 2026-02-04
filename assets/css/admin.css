@@ -1,0 +1,64 @@
+/**
+ * Skein Configurator Admin Styles
+ */
+
+/* ============================================
+   ACF Admin Styling
+   ============================================ */
+
+.acf-field[data-name="skein_available_colors"] .acf-table,
+.acf-field[data-name="skein_available_lengths"] .acf-table {
+    background: #fff;
+}
+
+.acf-field[data-name="skein_available_colors"] .acf-row,
+.acf-field[data-name="skein_available_lengths"] .acf-row {
+    transition: background 0.2s ease;
+}
+
+.acf-field[data-name="skein_available_colors"] .acf-row:hover,
+.acf-field[data-name="skein_available_lengths"] .acf-row:hover {
+    background: #f9f9f9;
+}
+
+/* Color preview in admin table */
+.acf-field[data-name="color_code"] .acf-color-picker {
+    min-width: 120px;
+}
+
+/* ============================================
+   Product List Column
+   ============================================ */
+
+.column-skein_configurator {
+    width: 120px;
+    text-align: center;
+}
+
+/* ============================================
+   Product Edit Page
+   ============================================ */
+
+.acf-field[data-name="enable_skein_configurator"] {
+    background: #f0f8ff;
+    padding: 15px;
+    border-radius: 4px;
+    border: 1px solid #0071a1;
+}
+
+.acf-field[data-name="skein_product_image_note"] .acf-label {
+    display: none;
+}
+
+.acf-field[data-name="skein_product_image_note"] .acf-input {
+    padding: 12px 15px;
+    background: #fff3cd;
+    border-left: 4px solid #ffc107;
+    border-radius: 4px;
+}
+
+.acf-field[data-name="skein_product_image_note"] .acf-input p {
+    margin: 0;
+    color: #856404;
+    font-size: 13px;
+}
