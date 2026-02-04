@@ -1,255 +1,466 @@
-jQuery(document).ready(function ($) {
-    var currentSlot = null;
+/**
+ * Skein Configurator Frontend
+ * Handles color selection, slot management, and gradient preview
+ */
+(function ($) {
+    'use strict';
 
-    // Handle length selection change
-    $('#skeinLengthSelect').on('change', function () {
-        var selectedValue = $(this).val();
-        $('#skeinSelectedLength').val(selectedValue);
-    });
+    // ============================================
+    // Configuration & Constants
+    // ============================================
+    const CONFIG = {
+        MAX_COLORS: 5,
+        INITIAL_FILLED_SLOTS: 3,
+        INIT_DELAY: 500,
+        GRADIENT_RADIUS_STOPS: {
+            1: [0, 97],
+            2: [0, 40, 97],
+            3: [0, 31, 72, 97],
+            4: [0, 22, 66, 80, 97],
+            5: [0, 17, 52, 71, 89, 97]
+        },
+        DEFAULT_COLOR: '#cccccc',
+        BORDER_OPACITY: 0.3
+    };
 
-    // Initialize length on page load
-    var initialLength = $('#skeinLengthSelect').val();
-    if (initialLength) {
-        $('#skeinSelectedLength').val(initialLength);
-    }
+    const SELECTORS = {
+        lengthSelect: '#skeinLengthSelect',
+        selectedLength: '#skeinSelectedLength',
+        selectedColors: '#skeinSelectedColors',
+        colorSlots: '#skeinColorSlots',
+        colorSlot: '.skein-color-slot',
+        colorSwatch: '.skein-color-swatch',
+        clearIcon: '.slot-clear-icon',
+        slotName: '.slot-name',
+        gradient: '#skeinGradient',
+        modalColorOption: '.swal-color-option'
+    };
 
-    // Function to open color selection modal
-    function openColorModal(slot) {
-        currentSlot = slot;
+    // ============================================
+    // Utility Functions
+    // ============================================
+    const Utils = {
+        /**
+         * Get localized string with fallback
+         */
+        getString(key, fallback) {
+            return skeinConfig?.strings?.[key] || fallback;
+        },
 
-        // Build color options HTML
-        var colorsHtml = '<div class="swal-color-grid">';
-        // Add Empty Slot option first
-        colorsHtml += '<button class="swal-color-option empty-slot-option" data-color-name="Empty" data-color-code="" title="Empty Slot">' +
-            '<span>Empty Slot</span>' +
-            '</button>';
-        $('.skein-color-swatch').each(function () {
-            var colorName = $(this).data('color-name');
-            var colorCode = $(this).data('color-code');
-            colorsHtml += '<button class="swal-color-option" data-color-name="' + colorName + '" data-color-code="' + colorCode + '" style="background-color: ' + colorCode + ';" title="' + colorName + '">' +
-                '<span>' + colorName + '</span>' +
-                '</button>';
-        });
-        colorsHtml += '</div>';
+        /**
+         * Shuffle array using Fisher-Yates algorithm
+         */
+        shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        },
 
-        // Show SweetAlert2 modal
-        Swal.fire({
-            title: 'Select Color',
-            html: colorsHtml,
-            showCancelButton: true,
-            showConfirmButton: false,
-            cancelButtonText: 'Close',
-            width: '600px',
-            customClass: {
-                popup: 'skein-swal-popup',
-                htmlContainer: 'skein-swal-html',
-                cancelButton: 'skein-swal-cancel'
-            },
-            didOpen: () => {
-                // Handle color selection
-                document.querySelectorAll('.swal-color-option').forEach(btn => {
-                    btn.addEventListener('click', function () {
-                        var colorName = this.getAttribute('data-color-name');
-                        var colorCode = this.getAttribute('data-color-code');
+        /**
+         * Create SVG element with attributes
+         */
+        createSvgElement(tag, attributes) {
+            const element = document.createElementNS('http://www.w3.org/2000/svg', tag);
+            Object.entries(attributes).forEach(([key, value]) => {
+                element.setAttribute(key, value);
+            });
+            return element;
+        }
+    };
 
-                        if (colorName === 'Empty') {
-                            // Empty slot
-                            currentSlot
-                                .addClass('empty')
-                                .css('background-color', '')
-                                .removeData('color-name')
-                                .removeData('color-code')
-                                .find('.slot-name')
-                                .text('Empty');
-                        } else {
-                            // Select color
-                            currentSlot
-                                .removeClass('empty')
-                                .css('background-color', colorCode)
-                                .data('color-name', colorName)
-                                .data('color-code', colorCode)
-                                .find('.slot-name')
-                                .text(colorName);
-                        }
+    // ============================================
+    // Slot Manager
+    // ============================================
+    const SlotManager = {
+        currentSlot: null,
 
-                        updateSelectedColors();
-                        updateGradientOverlay();
+        /**
+         * Clear a slot to empty state
+         */
+        clearSlot($slot) {
+            $slot
+                .addClass('empty')
+                .removeClass('filled')
+                .css('background-color', '')
+                .removeData('color-name')
+                .removeData('color-code')
+                .find(SELECTORS.slotName)
+                .text(Utils.getString('empty', 'Empty'));
+        },
 
-                        if (colorName !== 'Empty') {
-                            // Check if there are empty slots
-                            var emptySlots = $('.skein-color-slot.empty');
-                            if (emptySlots.length > 0) {
-                                Swal.fire({
-                                    title: 'Color Selected',
-                                    text: 'Do you want to select a color for another empty slot?',
-                                    showCancelButton: true,
-                                    confirmButtonText: 'Yes',
-                                    cancelButtonText: 'No'
-                                }).then((result) => {
-                                    if (result.isConfirmed) {
-                                        // Open modal for next empty slot
-                                        var nextSlot = emptySlots.first();
-                                        openColorModal(nextSlot);
-                                    } else {
-                                        Swal.close();
-                                    }
-                                });
-                            } else {
-                                Swal.close();
-                            }
-                        } else {
-                            Swal.close();
-                        }
-                    });
+        /**
+         * Fill a slot with color
+         */
+        fillSlot($slot, colorName, colorCode) {
+            $slot
+                .removeClass('empty')
+                .addClass('filled')
+                .css('background-color', colorCode)
+                .data('color-name', colorName)
+                .data('color-code', colorCode)
+                .find(SELECTORS.slotName)
+                .text(colorName);
+        },
+
+        /**
+         * Get all filled slots' colors
+         */
+        getFilledColors() {
+            const colors = [];
+            $(`${SELECTORS.colorSlot}:not(.empty)`).each(function () {
+                colors.push({
+                    name: $(this).data('color-name'),
+                    code: $(this).data('color-code')
                 });
-            }
-        });
-    }
-
-    // Handle slot clicks - open SweetAlert2 modal
-    $(document).on('click', '.skein-color-slot', function (e) {
-        e.preventDefault();
-        openColorModal($(this));
-    });
-
-    // Initialize SortableJS for color slots
-    var colorSlotsElement = document.getElementById('skeinColorSlots');
-    if (colorSlotsElement && typeof Sortable !== 'undefined') {
-        new Sortable(colorSlotsElement, {
-            animation: 150,
-            ghostClass: 'sortable-ghost',
-            chosenClass: 'sortable-chosen',
-            dragClass: 'sortable-drag',
-            handle: '.skein-color-slot',
-            forceFallback: false,
-            onEnd: function (evt) {
-                updateSelectedColors();
-                updateGradientOverlay();
-            }
-        });
-    }
-
-    // Update hidden input with selected colors
-    function updateSelectedColors() {
-        var colors = [];
-        $('.skein-color-slot:not(.empty)').each(function () {
-            colors.push({
-                name: $(this).data('color-name'),
-                code: $(this).data('color-code')
             });
-        });
-        $('#skeinSelectedColors').val(JSON.stringify(colors));
-    }
+            return colors;
+        },
 
-    // Update the radial gradient overlay - supports up to 5 colors
-    function updateGradientOverlay() {
-        // Get SVG gradient element
-        var gradientElement = document.getElementById('skeinGradient');
-        if (!gradientElement) {
-            console.log('No gradient element found');
-            return;
-        }
-
-        // Get selected colors from slots (up to 5)
-        var selectedColors = [];
-        $('.skein-color-slot:not(.empty)').each(function () {
-            var colorCode = $(this).data('color-code');
-            if (colorCode && selectedColors.length < 5) {
-                selectedColors.push(colorCode);
-            }
-        });
-
-        // Use default gray if no colors selected
-        if (selectedColors.length === 0) {
-            selectedColors = ['#cccccc'];
-        }
-
-        // Clear existing stops
-        while (gradientElement.firstChild) {
-            gradientElement.removeChild(gradientElement.firstChild);
-        }
-
-        // Manual radius definitions for each color count (1-5 colors)
-        // Each array defines the boundary points for concentric circles
-        // Last stop at 95% to leave space for transparent border ring
-        var numColors = selectedColors.length;
-        var radiusStops = {
-            1: [0, 97],                       // 1 color: full circle to 95%
-            2: [0, 40, 97],                   // 2 colors: adjusted proportionally
-            3: [0, 31, 72, 97],               // 3 colors: adjusted proportionally
-            4: [0, 22, 61, 82, 97],           // 4 colors: adjusted proportionally
-            5: [0, 17, 52, 71, 89, 97]        // 5 colors: adjusted proportionally
-        };
-
-        var stops = radiusStops[numColors];
-
-        // Create smooth gradient with blended colors
-        selectedColors.forEach(function (color, index) {
-            var radius = stops[index + 1];
-
-            var stop = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
-            stop.setAttribute('offset', radius + '%');
-            stop.setAttribute('stop-color', color);
-            stop.setAttribute('stop-opacity', '1');
-            gradientElement.appendChild(stop);
-        });
-
-        // Add transparent ring as last ring for semi-transparent border effect
-        if (selectedColors.length > 0) {
-            var lastColor = selectedColors[selectedColors.length - 1];
-            var transparentStop = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
-            transparentStop.setAttribute('offset', '100%');
-            transparentStop.setAttribute('stop-color', lastColor);
-            transparentStop.setAttribute('stop-opacity', '0.3');
-            gradientElement.appendChild(transparentStop);
-        }
-
-        console.log('Gradient updated with ' + numColors + ' colors:', selectedColors);
-    }
-
-    // Preset random non-repeated colors on page load
-    function presetRandomColors() {
-        var availableColors = [];
-        $('.skein-color-swatch').each(function () {
-            availableColors.push({
-                name: $(this).data('color-name'),
-                code: $(this).data('color-code')
+        /**
+         * Get available colors from swatches
+         */
+        getAvailableColors() {
+            const colors = [];
+            $(SELECTORS.colorSwatch).each(function () {
+                colors.push({
+                    name: $(this).data('color-name'),
+                    code: $(this).data('color-code')
+                });
             });
-        });
+            return colors;
+        },
 
-        if (availableColors.length === 0) {
-            return;
+        /**
+         * Update hidden input with selected colors
+         */
+        updateHiddenInput() {
+            const colors = this.getFilledColors();
+            $(SELECTORS.selectedColors).val(JSON.stringify(colors));
         }
+    };
 
-        // Shuffle colors array
-        var shuffledColors = availableColors.slice();
-        for (var i = shuffledColors.length - 1; i > 0; i--) {
-            var j = Math.floor(Math.random() * (i + 1));
-            var temp = shuffledColors[i];
-            shuffledColors[i] = shuffledColors[j];
-            shuffledColors[j] = temp;
-        }
+    // ============================================
+    // Gradient Manager
+    // ============================================
+    const GradientManager = {
+        /**
+         * Update the SVG radial gradient overlay
+         */
+        update() {
+            const gradientElement = document.querySelector(SELECTORS.gradient);
+            if (!gradientElement) return;
 
-        // Assign random colors to slots (only first 3)
-        $('.skein-color-slot').each(function (index) {
-            if (index < 3 && index < shuffledColors.length) {
-                var color = shuffledColors[index];
-                $(this)
-                    .removeClass('empty')
-                    .css('background-color', color.code)
-                    .data('color-name', color.name)
-                    .data('color-code', color.code)
-                    .find('.slot-name')
-                    .text(color.name);
+            const colors = this.getGradientColors();
+            this.clearStops(gradientElement);
+            this.createStops(gradientElement, colors);
+        },
+
+        /**
+         * Get colors for gradient (max 5)
+         */
+        getGradientColors() {
+            const colors = [];
+            $(`${SELECTORS.colorSlot}:not(.empty)`).each(function () {
+                const colorCode = $(this).data('color-code');
+                if (colorCode && colors.length < CONFIG.MAX_COLORS) {
+                    colors.push(colorCode);
+                }
+            });
+            return colors.length > 0 ? colors : [CONFIG.DEFAULT_COLOR];
+        },
+
+        /**
+         * Clear all gradient stops
+         */
+        clearStops(element) {
+            while (element.firstChild) {
+                element.removeChild(element.firstChild);
             }
-        });
+        },
 
-        updateSelectedColors();
-    }
+        /**
+         * Create gradient stops
+         */
+        createStops(element, colors) {
+            const stops = CONFIG.GRADIENT_RADIUS_STOPS[colors.length];
 
-    // Initialize on page load (wait for SVG to be ready)
-    setTimeout(function () {
-        presetRandomColors();
-        updateGradientOverlay();
-    }, 500);
-});
+            colors.forEach((color, index) => {
+                const stop = Utils.createSvgElement('stop', {
+                    offset: `${stops[index + 1]}%`,
+                    'stop-color': color,
+                    'stop-opacity': '1'
+                });
+                element.appendChild(stop);
+            });
+
+            // Add transparent border ring
+            const lastColor = colors[colors.length - 1];
+            const borderStop = Utils.createSvgElement('stop', {
+                offset: '100%',
+                'stop-color': lastColor,
+                'stop-opacity': String(CONFIG.BORDER_OPACITY)
+            });
+            element.appendChild(borderStop);
+        }
+    };
+
+    // ============================================
+    // Modal Manager
+    // ============================================
+    const ModalManager = {
+        /**
+         * Build color grid HTML for modal
+         */
+        buildColorGridHtml($currentSlot) {
+            const currentColorName = $currentSlot.data('color-name') || '';
+            const isEmptySlot = $currentSlot.hasClass('empty');
+            const emptySlotText = Utils.getString('emptySlot', 'Empty Slot');
+
+            let html = '<div class="swal-color-grid">';
+
+            // Empty slot option
+            const emptySelected = isEmptySlot ? ' selected' : '';
+            html += `
+                <button class="swal-color-option empty-slot-option${emptySelected}" 
+                        data-color-name="Empty" data-color-code="" title="${emptySlotText}">
+                    <i class="fas fa-times-circle empty-slot-icon"></i>
+                    <span>${emptySlotText}</span>
+                </button>`;
+
+            // Color options
+            $(SELECTORS.colorSwatch).each(function () {
+                const colorName = $(this).data('color-name');
+                const colorCode = $(this).data('color-code');
+                const selectedClass = (!isEmptySlot && colorName === currentColorName) ? ' selected' : '';
+
+                html += `
+                    <button class="swal-color-option${selectedClass}" 
+                            data-color-name="${colorName}" 
+                            data-color-code="${colorCode}" 
+                            style="background-color: ${colorCode};" 
+                            title="${colorName}">
+                        <span>${colorName}</span>
+                    </button>`;
+            });
+
+            html += '</div>';
+            return html;
+        },
+
+        /**
+         * Handle color selection in modal
+         */
+        handleColorSelection(colorName, colorCode) {
+            const $slot = SlotManager.currentSlot;
+
+            if (colorName === 'Empty') {
+                SlotManager.clearSlot($slot);
+            } else {
+                SlotManager.fillSlot($slot, colorName, colorCode);
+            }
+
+            SlotManager.updateHiddenInput();
+            GradientManager.update();
+        },
+
+        /**
+         * Update visual selection state in modal
+         */
+        updateModalSelection(selectedButton) {
+            document.querySelectorAll(SELECTORS.modalColorOption).forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            selectedButton.classList.add('selected');
+        },
+
+        /**
+         * Prompt user for next empty slot
+         */
+        promptNextSlot() {
+            const $emptySlots = $(`${SELECTORS.colorSlot}.empty`);
+
+            if ($emptySlots.length === 0) {
+                Swal.close();
+                return;
+            }
+
+            Swal.fire({
+                title: Utils.getString('colorSelected', 'Color Selected'),
+                text: Utils.getString('selectAnotherColor', 'Do you want to select a color for another empty slot?'),
+                showCancelButton: true,
+                confirmButtonText: Utils.getString('yes', 'Yes'),
+                cancelButtonText: Utils.getString('no', 'No')
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.open($emptySlots.first());
+                }
+            });
+        },
+
+        /**
+         * Open color selection modal
+         */
+        open($slot) {
+            SlotManager.currentSlot = $slot;
+
+            Swal.fire({
+                title: Utils.getString('selectColor', 'Select Color'),
+                html: this.buildColorGridHtml($slot),
+                showCancelButton: true,
+                showConfirmButton: false,
+                cancelButtonText: Utils.getString('close', 'Close'),
+                width: '800px',
+                customClass: {
+                    popup: 'skein-swal-popup',
+                    htmlContainer: 'skein-swal-html',
+                    cancelButton: 'skein-swal-cancel'
+                },
+                didOpen: () => this.bindModalEvents()
+            });
+        },
+
+        /**
+         * Bind click events to modal color options
+         */
+        bindModalEvents() {
+            const self = this;
+
+            document.querySelectorAll(SELECTORS.modalColorOption).forEach(btn => {
+                btn.addEventListener('click', function () {
+                    const colorName = this.getAttribute('data-color-name');
+                    const colorCode = this.getAttribute('data-color-code');
+
+                    self.handleColorSelection(colorName, colorCode);
+                    self.updateModalSelection(this);
+
+                    if (colorName === 'Empty') {
+                        Swal.close();
+                    } else {
+                        self.promptNextSlot();
+                    }
+                });
+            });
+        }
+    };
+
+    // ============================================
+    // Event Handlers
+    // ============================================
+    const EventHandlers = {
+        /**
+         * Initialize all event handlers
+         */
+        init() {
+            this.bindLengthSelect();
+            this.bindSlotClick();
+            this.bindClearClick();
+            this.initSortable();
+        },
+
+        /**
+         * Handle length selection change
+         */
+        bindLengthSelect() {
+            $(SELECTORS.lengthSelect).on('change', function () {
+                $(SELECTORS.selectedLength).val($(this).val());
+            });
+
+            // Initialize on load
+            const initialLength = $(SELECTORS.lengthSelect).val();
+            if (initialLength) {
+                $(SELECTORS.selectedLength).val(initialLength);
+            }
+        },
+
+        /**
+         * Handle slot clicks
+         */
+        bindSlotClick() {
+            $(document).on('click', SELECTORS.colorSlot, function (e) {
+                if ($(e.target).closest(SELECTORS.clearIcon).length > 0) return;
+
+                e.preventDefault();
+                ModalManager.open($(this));
+            });
+        },
+
+        /**
+         * Handle clear icon clicks
+         */
+        bindClearClick() {
+            $(document).on('click', SELECTORS.clearIcon, function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                const $slot = $(this).closest(SELECTORS.colorSlot);
+                SlotManager.clearSlot($slot);
+                SlotManager.updateHiddenInput();
+                GradientManager.update();
+            });
+        },
+
+        /**
+         * Initialize SortableJS
+         */
+        initSortable() {
+            const element = document.querySelector(SELECTORS.colorSlots);
+            if (!element || typeof Sortable === 'undefined') return;
+
+            new Sortable(element, {
+                animation: 150,
+                ghostClass: 'sortable-ghost',
+                chosenClass: 'sortable-chosen',
+                dragClass: 'sortable-drag',
+                handle: SELECTORS.colorSlot,
+                forceFallback: false,
+                onEnd() {
+                    SlotManager.updateHiddenInput();
+                    GradientManager.update();
+                }
+            });
+        }
+    };
+
+    // ============================================
+    // Initialization
+    // ============================================
+    const App = {
+        /**
+         * Preset random colors on initial load
+         */
+        presetRandomColors() {
+            const availableColors = SlotManager.getAvailableColors();
+            if (availableColors.length === 0) return;
+
+            const shuffledColors = Utils.shuffleArray(availableColors);
+
+            $(SELECTORS.colorSlot).each(function (index) {
+                if (index < CONFIG.INITIAL_FILLED_SLOTS && index < shuffledColors.length) {
+                    SlotManager.fillSlot($(this), shuffledColors[index].name, shuffledColors[index].code);
+                }
+            });
+
+            SlotManager.updateHiddenInput();
+        },
+
+        /**
+         * Initialize the application
+         */
+        init() {
+            EventHandlers.init();
+
+            // Wait for SVG to be ready
+            setTimeout(() => {
+                this.presetRandomColors();
+                GradientManager.update();
+            }, CONFIG.INIT_DELAY);
+        }
+    };
+
+    // Start application when DOM is ready
+    $(document).ready(() => App.init());
+
+})(jQuery);

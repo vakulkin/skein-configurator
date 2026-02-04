@@ -164,7 +164,7 @@ class Skein_Cart
         if (isset($cart_item['skein_length']) && is_array($cart_item['skein_length'])) {
             $length = $cart_item['skein_length'];
             if (isset($length['length_value'])) {
-                $unit = isset($length['length_unit']) ? $length['length_unit'] : 'meters';
+                $unit = isset($length['length_unit']) ? $length['length_unit'] : __('meters', 'skein-configurator');
                 $item_data[] = array(
                     'key' => __('Length', 'skein-configurator'),
                     'value' => sprintf(

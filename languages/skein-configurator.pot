@@ -1,0 +1,152 @@
+# Copyright (C) 2026 Skein Configurator
+# This file is distributed under the same license as the Skein Configurator plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: Skein Configurator 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-04 12:00+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+# Plugin notices
+msgid "Skein Configurator requires WooCommerce to be installed and active."
+msgstr ""
+
+msgid "Skein Configurator requires Advanced Custom Fields (ACF) to be installed and active."
+msgstr ""
+
+# ACF Field Group Title
+msgid "Skein Configurator"
+msgstr ""
+
+# Main Settings
+msgid "Enable Skein Configurator"
+msgstr ""
+
+msgid "Enable the color configurator for this product."
+msgstr ""
+
+msgid "Yes"
+msgstr ""
+
+msgid "No"
+msgstr ""
+
+msgid "Product Image Note"
+msgstr ""
+
+msgid "The main product image will be used as the base for the color overlay. Use a high-quality photo of a neutral-colored skein for best results."
+msgstr ""
+
+# Colors Section
+msgid "Available Colors"
+msgstr ""
+
+msgid "Define all available yarn colors that customers can choose from for this product."
+msgstr ""
+
+msgid "Add Color"
+msgstr ""
+
+msgid "Enabled"
+msgstr ""
+
+msgid "Color Name"
+msgstr ""
+
+msgid "e.g., Ocean Blue"
+msgstr ""
+
+msgid "Color Code"
+msgstr ""
+
+# Length Section
+msgid "Length Options"
+msgstr ""
+
+msgid "Define available skein lengths with their corresponding prices for this product."
+msgstr ""
+
+msgid "Add Length"
+msgstr ""
+
+msgid "Length (meters)"
+msgstr ""
+
+msgid "Price"
+msgstr ""
+
+# Frontend - Configurator UI
+msgid "Select Skein Length"
+msgstr ""
+
+msgid "Select Colors (Up to %d)"
+msgstr ""
+
+msgid "Click a slot to select a color. Drag to reorder."
+msgstr ""
+
+msgid "Choose length..."
+msgstr ""
+
+msgid "meters"
+msgstr ""
+
+msgid "Please add colors for this product."
+msgstr ""
+
+msgid "Please add length options for this product."
+msgstr ""
+
+msgid "Skein Length"
+msgstr ""
+
+msgid "Selected Colors"
+msgstr ""
+
+msgid "Empty Slot"
+msgstr ""
+
+msgid "Click to remove"
+msgstr ""
+
+msgid "Drag to reorder colors"
+msgstr ""
+
+msgid "Please select a skein length"
+msgstr ""
+
+msgid "Select Color"
+msgstr ""
+
+msgid "Close"
+msgstr ""
+
+msgid "Color Selected"
+msgstr ""
+
+msgid "Do you want to select a color for another empty slot?"
+msgstr ""
+
+# Cart Validation
+msgid "Please select a skein length before adding to cart."
+msgstr ""
+
+msgid "Please select at least one color before adding to cart."
+msgstr ""
+
+# Product Listing
+msgid "Select Options"
+msgstr ""
+
+# Order Details
+msgid "Skein Length:"
+msgstr ""
+
+msgid "Selected Colors:"
+msgstr ""

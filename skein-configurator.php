@@ -53,7 +53,16 @@ final class Skein_Configurator
         register_deactivation_hook(__FILE__, array($this, 'deactivate'));
 
         add_action('before_woocommerce_init', array($this, 'declare_compatibility'));
-        add_action('plugins_loaded', array($this, 'init'), 0);
+        add_action('plugins_loaded', array($this, 'load_textdomain'), 1);
+        add_action('plugins_loaded', array($this, 'init'), 10);
+    }
+
+    /**
+     * Load plugin text domain
+     */
+    public function load_textdomain()
+    {
+        load_plugin_textdomain('skein-configurator', false, dirname(plugin_basename(__FILE__)) . '/languages/');
     }
 
     /**
@@ -105,9 +114,6 @@ final class Skein_Configurator
         Skein_Admin::instance();
         Skein_Frontend::instance();
         Skein_Cart::instance();
-
-        // Load plugin text domain
-        load_plugin_textdomain('skein-configurator', false, dirname(SKEIN_CONFIGURATOR_PLUGIN_BASENAME) . '/languages');
     }
 
     /**

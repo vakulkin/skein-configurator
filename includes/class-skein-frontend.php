@@ -137,6 +137,8 @@ class Skein_Frontend
             return;
         }
 
+        // Font Awesome is already loaded on the site
+
         // Enqueue SortableJS
         wp_enqueue_script(
             'sortablejs',
@@ -189,9 +191,16 @@ class Skein_Frontend
             'overlayOpacity' => Skein_ACF_Config::get_overlay_opacity($product_id),
             'strings' => array(
                 'emptySlot' => __('Empty Slot', 'skein-configurator'),
+                'empty' => __('Empty', 'skein-configurator'),
                 'clickToRemove' => __('Click to remove', 'skein-configurator'),
                 'dragToReorder' => __('Drag to reorder colors', 'skein-configurator'),
                 'selectLength' => __('Please select a skein length', 'skein-configurator'),
+                'selectColor' => __('Select Color', 'skein-configurator'),
+                'close' => __('Close', 'skein-configurator'),
+                'colorSelected' => __('Color Selected', 'skein-configurator'),
+                'selectAnotherColor' => __('Do you want to select a color for another empty slot?', 'skein-configurator'),
+                'yes' => __('Yes', 'skein-configurator'),
+                'no' => __('No', 'skein-configurator'),
             ),
         ));
     }
@@ -264,7 +273,7 @@ class Skein_Frontend
         }
 
         ?>
-<div class="skein-configurator">
+<div id="skeinConfigurator" class="skein-configurator">
 
 	<!-- Length Selection -->
 	<div class="skein-section skein-length-section">
@@ -281,7 +290,7 @@ class Skein_Frontend
 					<?php selected($index, 0); ?>
 				>
 					<?php 
-                        $unit = isset($length['length_unit']) ? $length['length_unit'] : 'meters';
+                        $unit = isset($length['length_unit']) ? $length['length_unit'] : __('meters', 'skein-configurator');
                         echo esc_html($length['length_value'] . ' ' . $unit . ' - ' . strip_tags(wc_price($length['length_price']))); 
                     ?>
 				</option>
@@ -320,10 +329,13 @@ class Skein_Frontend
 				<?php for ($i = 1; $i <= $max_colors; $i++): ?>
 				<li class="skein-color-slot empty"
 					data-slot="<?php echo $i; ?>">
-					<span
-						class="slot-number"><?php echo $i; ?></span>
-					<span
-						class="slot-name"><?php esc_html_e('Empty', 'skein-configurator'); ?></span>
+					<span class="slot-edit-icon" title="<?php esc_attr_e('Edit color', 'skein-configurator'); ?>">
+					<i class="fas fa-pencil-alt"></i>
+					</span>
+					<span class="slot-name"><?php esc_html_e('Empty', 'skein-configurator'); ?></span>
+					<span class="slot-clear-icon" title="<?php esc_attr_e('Clear color', 'skein-configurator'); ?>">
+					<i class="fas fa-times"></i>
+					</span>
 				</li>
 				<?php endfor; ?>
 			</ul>

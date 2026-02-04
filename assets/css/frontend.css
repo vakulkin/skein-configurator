@@ -6,13 +6,13 @@
    Image Overlay Wrapper
    ============================================ */
 
-.skein-image-wrapper {
+#skeinConfigurator .skein-image-wrapper {
     position: relative;
     display: inline-block;
     width: 100%;
 }
 
-.skein-overlay {
+#skeinConfigurator .skein-overlay {
     position: absolute;
     top: 0;
     left: 0;
@@ -27,15 +27,7 @@
    Configurator Container
    ============================================ */
 
-/* .skein-configurator {
-    margin: 30px 0;
-    padding: 25px;
-    background: #f9f9f9;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-} */
-
-.skein-configurator-error {
+#skeinConfigurator .skein-configurator-error {
     padding: 20px;
     background: #fff3cd;
     border: 1px solid #ffc107;
@@ -43,15 +35,15 @@
     color: #856404;
 }
 
-.skein-section {
+#skeinConfigurator .skein-section {
     margin-bottom: 30px;
 }
 
-.skein-section:last-child {
+#skeinConfigurator .skein-section:last-child {
     margin-bottom: 0;
 }
 
-.skein-section-title {
+#skeinConfigurator .skein-section-title {
     font-size: 18px;
     font-weight: 600;
     margin: 0 0 15px 0;
@@ -62,66 +54,68 @@
    Length Selection
    ============================================ */
 
-/* .skein-length-dropdown-wrapper {
-    background: #fff;
-    padding: 15px;
-    border-radius: 6px;
-    border: 1px solid #e0e0e0;
-} */
-
-.skein-length-select {
-    width: 100%;
-    padding: 12px 16px;
-    font-size: 16px;
-    color: #333;
-    background: #fff;
-    border: 2px solid #ddd;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    appearance: none;
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    background-size: 20px;
-    padding-right: 40px;
+#skeinConfigurator .skein-length-select,
+#skeinConfigurator select.skein-length-select,
+#skeinConfigurator select#skeinLengthSelect {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 12px 40px 12px 16px !important;
+    font-size: 16px !important;
+    line-height: 1.5 !important;
+    color: #333 !important;
+    background-color: #fff !important;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 12px center !important;
+    background-size: 20px !important;
+    border: 2px solid #ddd !important;
+    border-radius: 6px !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    height: auto !important;
+    min-height: 48px !important;
+    box-sizing: border-box !important;
+    vertical-align: middle !important;
+    margin: 0 !important;
 }
 
-.skein-length-select:hover {
-    border-color: #999;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+#skeinConfigurator .skein-length-select:hover,
+#skeinConfigurator select.skein-length-select:hover {
+    border-color: #999 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
 }
 
-.skein-length-select:focus {
-    outline: none;
-    border-color: #0071a1;
-    box-shadow: 0 0 0 3px rgba(0, 113, 161, 0.1);
+#skeinConfigurator .skein-length-select:focus,
+#skeinConfigurator select.skein-length-select:focus {
+    outline: none !important;
+    border-color: #0071a1 !important;
+    box-shadow: 0 0 0 3px rgba(0, 113, 161, 0.1) !important;
 }
 
-.skein-length-select option {
-    padding: 10px;
-    font-size: 16px;
+#skeinConfigurator .skein-length-select option,
+#skeinConfigurator select.skein-length-select option {
+    padding: 10px !important;
+    font-size: 16px !important;
+    line-height: 1.5 !important;
+    color: #333 !important;
+    background-color: #fff !important;
 }
 
 /* ============================================
    Color Slots
    ============================================ */
 
-/* .skein-color-slots-wrapper {
-    background: #fff;
-    padding: 20px;
-    border-radius: 6px;
-    border: 1px solid #e0e0e0;
-} */
-
-.skein-slots-instruction {
+#skeinConfigurator .skein-slots-instruction {
     margin: 0 0 15px 0;
     color: #666;
     font-size: 14px;
     font-style: italic;
 }
 
-.skein-color-slots {
+#skeinConfigurator .skein-color-slots {
     display: flex;
     gap: 12px;
     flex-wrap: wrap;
@@ -130,7 +124,7 @@
     padding: 0;
 }
 
-.skein-color-slot {
+#skeinConfigurator .skein-color-slot {
     width: 90px;
     height: 90px;
     border: 2px dashed #ccc;
@@ -139,52 +133,96 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
+    cursor: move;
     transition: all 0.2s ease;
     position: relative;
     background: #f5f5f5;
 }
 
-.skein-color-slot:hover {
+#skeinConfigurator .skein-color-slot:hover {
     border-color: #999;
     background: #ebebeb;
     transform: scale(1.02);
 }
 
-.skein-color-slot.empty {
+#skeinConfigurator .skein-color-slot.empty {
     background: #f5f5f5;
+    cursor: pointer;
 }
 
-.skein-color-slot.filled {
+#skeinConfigurator .skein-color-slot.filled {
     border-style: solid;
     border-color: #333;
     cursor: move;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
-.skein-color-slot.filled:hover {
+#skeinConfigurator .skein-color-slot.filled:hover {
     transform: scale(1.05);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
 
-.skein-color-slot .slot-number {
+#skeinConfigurator .skein-color-slot .slot-edit-icon {
     position: absolute;
-    top: 4px;
-    left: 4px;
+    top: 6px;
+    left: 6px;
     width: 24px;
     height: 24px;
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.95);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 12px;
-    font-weight: 700;
-    color: #333;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    color: #333;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    z-index: 10;
+    font-size: 16px;
 }
 
-.skein-color-slot .slot-name {
+#skeinConfigurator .skein-color-slot .slot-edit-icon i {
+    font-size: 14px;
+}
+
+#skeinConfigurator .skein-color-slot .slot-clear-icon i {
+    font-size: 12px;
+}
+
+#skeinConfigurator .skein-color-slot:hover .slot-edit-icon {
+    background: rgba(255, 255, 255, 1);
+    transform: scale(1.1);
+}
+
+#skeinConfigurator .skein-color-slot .slot-clear-icon {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 24px;
+    height: 24px;
+    background: rgba(220, 53, 69, 0.9);
+    border-radius: 50%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 10;
+    font-size: 16px;
+}
+
+#skeinConfigurator .skein-color-slot.filled .slot-clear-icon {
+    display: flex;
+}
+
+#skeinConfigurator .skein-color-slot .slot-clear-icon:hover {
+    background: rgba(220, 53, 69, 1);
+    transform: scale(1.15);
+}
+
+#skeinConfigurator .skein-color-slot .slot-name {
     padding: 4px 8px;
     background: rgba(255, 255, 255, 0.9);
     border-radius: 4px;
@@ -198,11 +236,11 @@
     color: #333;
 }
 
-.skein-color-slot.empty .slot-name {
+#skeinConfigurator .skein-color-slot.empty .slot-name {
     color: #999;
 }
 
-.skein-slot-placeholder {
+#skeinConfigurator .skein-slot-placeholder {
     background: #e0e0e0;
     border: 2px dashed #999;
 }
@@ -211,18 +249,18 @@
    Sortable UI States
    ============================================ */
 
-.ui-sortable-helper {
+#skeinConfigurator .ui-sortable-helper {
     opacity: 0.8 !important;
     z-index: 1000 !important;
 }
 
-.ui-sortable-placeholder {
+#skeinConfigurator .ui-sortable-placeholder {
     background: #e0e0e0 !important;
     border: 2px dashed #999 !important;
     visibility: visible !important;
 }
 
-.skein-color-slots {
+#skeinConfigurator .skein-color-slots {
     position: relative;
 }
 
@@ -231,22 +269,18 @@
    ============================================ */
 
 @media (max-width: 768px) {
-    /* .skein-configurator {
-        padding: 20px 15px;
-    } */
-    
-    .skein-color-slots {
+    #skeinConfigurator .skein-color-slots {
         justify-content: center;
     }
     
-    .skein-color-slot {
+    #skeinConfigurator .skein-color-slot {
         width: 80px;
         height: 80px;
     }
 }
 
 @media (max-width: 480px) {
-    .skein-color-slot {
+    #skeinConfigurator .skein-color-slot {
         width: 70px;
         height: 70px;
     }
@@ -256,17 +290,17 @@
    SweetAlert2 Modal Customization
    ============================================ */
 
-.swal-color-grid {
+.skein-swal-popup .swal-color-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
     gap: 12px;
     margin-top: 20px;
 }
 
-.swal-color-option {
+.skein-swal-popup .swal-color-option {
     aspect-ratio: 1;
     border: 3px solid transparent;
-    border-radius: 8px;
+    border-radius: 50%;
     cursor: pointer;
     transition: all 0.2s ease;
     position: relative;
@@ -277,38 +311,67 @@
     padding: 0;
 }
 
-.swal-color-option:hover {
+.skein-swal-popup .swal-color-option:hover {
     transform: scale(1.05);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
     border-color: #333;
 }
 
-.empty-slot-option {
+.skein-swal-popup .swal-color-option.selected {
+    border-color: #0071a1 !important;
+    box-shadow: 0 0 0 3px rgba(0, 113, 161, 0.3) !important;
+    transform: scale(1.05);
+}
+
+.skein-swal-popup .empty-slot-option {
     background: #f5f5f5 !important;
     border: 2px dashed #ccc !important;
     box-shadow: none !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
 }
 
-.empty-slot-option:hover {
+.skein-swal-popup .empty-slot-option:hover {
     border-color: #999 !important;
     background: #e8e8e8 !important;
     transform: scale(1.05);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
 }
 
-.empty-slot-option span {
+.skein-swal-popup .empty-slot-option span {
     background: rgba(0, 0, 0, 0.6) !important;
     color: #fff !important;
+    margin-top: 8px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    text-align: center;
 }
 
-.swal-color-option span {
+.skein-swal-popup .empty-slot-icon {
+    font-size: 24px;
+    color: #666;
+    margin-bottom: 4px;
+}
+
+.skein-swal-popup .empty-slot-option:hover .empty-slot-icon {
+    color: #333;
+    transform: scale(1.1);
+}
+
+.skein-swal-popup .swal-color-option span {
     width: 100%;
-    padding: 6px 8px;
+    padding: 4px 2px;
     background: rgba(0, 0, 0, 0.7);
     color: #fff;
     font-size: 12px;
     text-align: center;
     font-weight: 500;
+    border-radius: 4px;
 }
 
 .skein-swal-popup {
@@ -316,20 +379,40 @@
 }
 
 .skein-swal-html {
-    max-height: 60vh;
+    max-height: 70vh;
     overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: #ccc transparent;
 }
 
-.skein-swal-deny {
+.skein-swal-html::-webkit-scrollbar {
+    width: 8px;
+}
+
+.skein-swal-html::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.skein-swal-html::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 4px;
+}
+
+.skein-swal-html::-webkit-scrollbar-thumb:hover {
+    background: #999;
+}
+
+.skein-swal-popup .skein-swal-deny {
     background-color: #f44336 !important;
 }
 
-.skein-swal-deny:hover {
+.skein-swal-popup .skein-swal-deny:hover {
     background-color: #d32f2f !important;
 }
 
 @media (max-width: 480px) {
-    .swal-color-grid {
-        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    .skein-swal-popup .swal-color-grid {
+        grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
     }
 }

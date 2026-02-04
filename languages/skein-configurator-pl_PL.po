@@ -1,0 +1,170 @@
+# Polish translation for Skein Configurator
+# Copyright (C) 2026
+# This file is distributed under the same license as the Skein Configurator plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: Skein Configurator 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-04 12:00+0000\n"
+"PO-Revision-Date: 2026-02-04 12:00+0000\n"
+"Last-Translator: Anton Vakulov\n"
+"Language-Team: Polish\n"
+"Language: pl_PL\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+
+# Plugin notices
+msgid "Skein Configurator requires WooCommerce to be installed and active."
+msgstr "Konfigurator Motków wymaga zainstalowanego i aktywnego WooCommerce."
+
+msgid "Skein Configurator requires Advanced Custom Fields (ACF) to be installed and active."
+msgstr "Konfigurator Motków wymaga zainstalowanych i aktywnych Advanced Custom Fields (ACF)."
+
+# ACF Field Group Title
+msgid "Skein Configurator"
+msgstr "Konfigurator Motków"
+
+# Main Settings
+msgid "Enable Skein Configurator"
+msgstr "Włącz Konfigurator Motków"
+
+msgid "Enable the color configurator for this product."
+msgstr "Włącz konfigurator kolorów dla tego produktu."
+
+msgid "Yes"
+msgstr "Tak"
+
+msgid "No"
+msgstr "Nie"
+
+msgid "Product Image Note"
+msgstr "Uwaga o Zdjęciu Produktu"
+
+msgid "The main product image will be used as the base for the color overlay. Use a high-quality photo of a neutral-colored skein for best results."
+msgstr "Główne zdjęcie produktu będzie używane jako podstawa dla nakładki koloru. Użyj wysokiej jakości zdjęcia motka w neutralnym kolorze dla najlepszych rezultatów."
+
+# Colors Section
+msgid "Available Colors"
+msgstr "Dostępne Kolory"
+
+msgid "Define all available yarn colors that customers can choose from for this product."
+msgstr "Zdefiniuj wszystkie dostępne kolory włóczki, które klienci mogą wybrać dla tego produktu."
+
+msgid "Add Color"
+msgstr "Dodaj Kolor"
+
+msgid "Enabled"
+msgstr "Włączony"
+
+msgid "Color Name"
+msgstr "Nazwa Koloru"
+
+msgid "e.g., Ocean Blue"
+msgstr "np. Błękit Oceanu"
+
+msgid "Color Code"
+msgstr "Kod Koloru"
+
+# Length Section
+msgid "Length Options"
+msgstr "Opcje Długości"
+
+msgid "Define available skein lengths with their corresponding prices for this product."
+msgstr "Zdefiniuj dostępne długości motków wraz z odpowiadającymi im cenami dla tego produktu."
+
+msgid "Add Length"
+msgstr "Dodaj Długość"
+
+msgid "Length (meters)"
+msgstr "Długość (metry)"
+
+msgid "Price"
+msgstr "Cena"
+
+# Frontend - Configurator UI
+msgid "Select Skein Length"
+msgstr "Wybierz Długość Motka"
+
+msgid "Select Colors (Up to %d)"
+msgstr "Wybierz Kolory (Do %d)"
+
+msgid "Click a slot to select a color. Drag to reorder."
+msgstr "Kliknij pole, aby wybrać kolor. Przeciągnij, aby zmienić kolejność."
+
+msgid "Choose length..."
+msgstr "Wybierz długość..."
+
+msgid "meters"
+msgstr "metrów"
+
+msgid "Please add colors for this product."
+msgstr "Proszę dodać kolory dla tego produktu."
+
+msgid "Please add length options for this product."
+msgstr "Proszę dodać opcje długości dla tego produktu."
+
+msgid "Skein Length"
+msgstr "Długość Motka"
+
+msgid "Selected Colors"
+msgstr "Wybrane Kolory"
+
+msgid "Empty Slot"
+msgstr "Puste"
+
+msgid "Empty"
+msgstr "Puste"
+
+msgid "Click to remove"
+msgstr "Kliknij, aby usunąć"
+
+msgid "Edit color"
+msgstr "Edytuj kolor"
+
+msgid "Clear color"
+msgstr "Wyczyść kolor"
+
+msgid "Drag to reorder colors"
+msgstr "Przeciągnij, aby zmienić kolejność kolorów"
+
+msgid "Please select a skein length"
+msgstr "Proszę wybrać długość motka"
+
+msgid "Select Color"
+msgstr "Wybierz Kolor"
+
+msgid "Close"
+msgstr "Zamknij"
+
+msgid "Color Selected"
+msgstr "Kolor Wybrany"
+
+msgid "Do you want to select a color for another empty slot?"
+msgstr "Czy chcesz wybrać kolor dla kolejnego pustego miejsca?"
+
+# Cart Validation
+msgid "Please select a skein length before adding to cart."
+msgstr "Proszę wybrać długość motka przed dodaniem do koszyka."
+
+msgid "Please select at least one color before adding to cart."
+msgstr "Proszę wybrać przynajmniej jeden kolor przed dodaniem do koszyka."
+
+# Product Listing
+msgid "Select Options"
+msgstr "Wybierz Opcje"
+
+# Order Details
+msgid "Skein Length:"
+msgstr "Długość Motka:"
+
+msgid "Selected Colors:"
+msgstr "Wybrane Kolory:"
+
+# Cart Display
+msgid "Length"
+msgstr "Długość"
+
+msgid "Colors"
+msgstr "Kolory"
