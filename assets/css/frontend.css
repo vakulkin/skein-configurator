@@ -178,15 +178,18 @@
     transition: all 0.2s ease;
     cursor: pointer;
     z-index: 10;
-    font-size: 16px;
 }
 
-#skeinConfigurator .skein-color-slot .slot-edit-icon i {
-    font-size: 14px;
+#skeinConfigurator .skein-color-slot .slot-edit-icon svg {
+    width: 12px;
+    height: 12px;
+    fill: currentColor;
 }
 
-#skeinConfigurator .skein-color-slot .slot-clear-icon i {
-    font-size: 12px;
+#skeinConfigurator .skein-color-slot .slot-clear-icon svg {
+    width: 10px;
+    height: 10px;
+    fill: currentColor;
 }
 
 #skeinConfigurator .skein-color-slot:hover .slot-edit-icon {
@@ -210,7 +213,6 @@
     cursor: pointer;
     transition: all 0.2s ease;
     z-index: 10;
-    font-size: 16px;
 }
 
 #skeinConfigurator .skein-color-slot.filled .slot-clear-icon {
@@ -353,13 +355,15 @@
 }
 
 .skein-swal-popup .empty-slot-icon {
-    font-size: 24px;
-    color: #666;
+    width: 24px;
+    height: 24px;
+    fill: #666;
     margin-bottom: 4px;
+    transition: all 0.2s ease;
 }
 
 .skein-swal-popup .empty-slot-option:hover .empty-slot-icon {
-    color: #333;
+    fill: #333;
     transform: scale(1.1);
 }
 
