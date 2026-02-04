@@ -3,16 +3,16 @@
  */
 
 /* ============================================
-   Image Overlay Wrapper
+   Image Overlay Wrapper (outside configurator)
    ============================================ */
 
-#skeinConfigurator .skein-image-wrapper {
+.skein-image-wrapper {
     position: relative;
     display: inline-block;
     width: 100%;
 }
 
-#skeinConfigurator .skein-overlay {
+.skein-overlay {
     position: absolute;
     top: 0;
     left: 0;
