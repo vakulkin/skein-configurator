@@ -226,7 +226,6 @@
             html += `
                 <button class="swal-color-option empty-slot-option${emptySelected}" 
                         data-color-name="Empty" data-color-code="" title="${emptySlotText}">
-                    <svg class="empty-slot-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor" width="24" height="24"><path d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416zm0 464A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c-9.4 9.4-9.4 24.6 0 33.9l47 47-47 47c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l47-47 47 47c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-47-47 47-47c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-47 47-47-47c-9.4-9.4-24.6-9.4-33.9 0z"/></svg>
                     <span>${emptySlotText}</span>
                 </button>`;
 
@@ -287,15 +286,61 @@
                 return;
             }
 
+            const yesText = Utils.getString('yes', 'Yes');
+            const noText = Utils.getString('no', 'No');
+            const selectNextColor = Utils.getString('selectNextColor', 'Select next color');
+            const colorsSelected = Utils.getString('colorsSelected', 'Colors are selected');
+
             Swal.fire({
                 title: Utils.getString('colorSelected', 'Color Selected'),
-                text: Utils.getString('selectAnotherColor', 'Do you want to select a color for another empty slot?'),
-                showCancelButton: true,
-                confirmButtonText: Utils.getString('yes', 'Yes'),
-                cancelButtonText: Utils.getString('no', 'No')
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    this.open($emptySlots.first());
+                showCancelButton: false,
+                showConfirmButton: false,
+                html: `
+                    <div class="swal-question-text">
+                        ${Utils.getString('selectAnotherColor', 'Do you want to select a color for another empty slot?')}
+                    </div>
+                    <div class="swal-next-slot-options">
+                        <button class="swal-next-slot-option yes-option" data-action="yes">
+                            <div class="option-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="36" height="36">
+                                    <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+                                </svg>
+                            </div>
+                            <div class="option-content">
+                                <div class="option-title">${yesText}</div>
+                                <div class="option-description">${selectNextColor}</div>
+                            </div>
+                        </button>
+                        <button class="swal-next-slot-option no-option" data-action="no">
+                            <div class="option-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="32" height="32">
+                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                                </svg>
+                            </div>
+                            <div class="option-content">
+                                <div class="option-title">${noText}</div>
+                                <div class="option-description">${colorsSelected}</div>
+                            </div>
+                        </button>
+                    </div>
+                `,
+                customClass: {
+                    popup: 'skein-swal-popup',
+                    htmlContainer: 'skein-swal-html'
+                },
+                didOpen: () => {
+                    // Bind click events for custom buttons
+                    document.querySelectorAll('.swal-next-slot-option').forEach(btn => {
+                        btn.addEventListener('click', (e) => {
+                            const action = e.currentTarget.dataset.action;
+                            if (action === 'yes') {
+                                Swal.close();
+                                this.open($emptySlots.first());
+                            } else {
+                                Swal.close();
+                            }
+                        });
+                    });
                 }
             });
         },
@@ -309,9 +354,9 @@
             Swal.fire({
                 title: Utils.getString('selectColor', 'Select Color'),
                 html: this.buildColorGridHtml($slot),
-                showCancelButton: true,
+                showCancelButton: false,
                 showConfirmButton: false,
-                cancelButtonText: Utils.getString('close', 'Close'),
+                showCloseButton: true,
                 width: '800px',
                 customClass: {
                     popup: 'skein-swal-popup',

@@ -39,6 +39,12 @@ msgstr "Tak"
 msgid "No"
 msgstr "Nie"
 
+msgid "Select next color"
+msgstr "wybierz kolejny color"
+
+msgid "Colors are selected"
+msgstr "kolory są wybrane"
+
 msgid "Product Image Note"
 msgstr "Uwaga o Zdjęciu Produktu"
 

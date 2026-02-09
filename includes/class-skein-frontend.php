@@ -46,14 +46,14 @@ class Skein_Frontend
         if (!is_product()) {
             return $price;
         }
-        
+
         $product_id = $product->get_id();
         $enabled = get_field('enable_skein_configurator', $product_id);
-        
+
         if ($enabled) {
             return '';
         }
-        
+
         return $price;
     }
 
@@ -78,33 +78,33 @@ class Skein_Frontend
         }
 
         ?>
-        <script type="text/javascript">
-            jQuery(document).ready(function($) {
-                // Disable Woodmart photoswipe/lightbox
-                $('.woocommerce-product-gallery').off('click', '.woocommerce-product-gallery__trigger');
-                $('.woocommerce-product-gallery__image a').off('click').on('click', function(e) {
-                    e.preventDefault();
-                    return false;
-                });
-                
-                // Remove photoswipe initialization
-                if (typeof $.fn.wc_product_gallery !== 'undefined') {
-                    $('.woocommerce-product-gallery').trigger('destroy.wc_product_gallery');
-                }
-                
-                // Disable Woodmart specific zoom
-                $('.product-images').addClass('no-zoom');
-                $('.product-image-wrap').off('click');
-                
-                // Prevent any image click events
-                $('.product-images a, .product-image-wrap a').on('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    return false;
-                });
-            });
-        </script>
-        <?php
+<script type="text/javascript">
+	jQuery(document).ready(function($) {
+		// Disable Woodmart photoswipe/lightbox
+		$('.woocommerce-product-gallery').off('click', '.woocommerce-product-gallery__trigger');
+		$('.woocommerce-product-gallery__image a').off('click').on('click', function(e) {
+			e.preventDefault();
+			return false;
+		});
+
+		// Remove photoswipe initialization
+		if (typeof $.fn.wc_product_gallery !== 'undefined') {
+			$('.woocommerce-product-gallery').trigger('destroy.wc_product_gallery');
+		}
+
+		// Disable Woodmart specific zoom
+		$('.product-images').addClass('no-zoom');
+		$('.product-image-wrap').off('click');
+
+		// Prevent any image click events
+		$('.product-images a, .product-image-wrap a').on('click', function(e) {
+			e.preventDefault();
+			e.stopPropagation();
+			return false;
+		});
+	});
+</script>
+<?php
     }
 
     /**
@@ -201,6 +201,8 @@ class Skein_Frontend
                 'selectAnotherColor' => __('Do you want to select a color for another empty slot?', 'skein-configurator'),
                 'yes' => __('Yes', 'skein-configurator'),
                 'no' => __('No', 'skein-configurator'),
+                'selectNextColor' => __('Select next color', 'skein-configurator'),
+                'colorsSelected' => __('Colors are selected', 'skein-configurator'),
             ),
         ));
     }
@@ -282,17 +284,19 @@ class Skein_Frontend
 		</h3>
 		<div class="skein-length-dropdown-wrapper">
 			<select name="skein_length" id="skeinLengthSelect" class="skein-length-select">
-				<option value=""><?php esc_html_e('Choose length...', 'skein-configurator'); ?></option>
+				<option value="">
+					<?php esc_html_e('Choose length...', 'skein-configurator'); ?>
+				</option>
 				<?php foreach ($lengths as $index => $length): ?>
-				<option 
+				<option
 					value="<?php echo esc_attr(json_encode($length)); ?>"
 					data-price="<?php echo esc_attr($length['length_price']); ?>"
 					<?php selected($index, 0); ?>
-				>
-					<?php 
+					>
+					<?php
                         $unit = isset($length['length_unit']) ? $length['length_unit'] : __('meters', 'skein-configurator');
-                        echo esc_html($length['length_value'] . ' ' . $unit . ' - ' . strip_tags(wc_price($length['length_price']))); 
-                    ?>
+				    echo esc_html($length['length_value'] . ' ' . $unit . ' - ' . strip_tags(wc_price($length['length_price'])));
+				    ?>
 				</option>
 				<?php endforeach; ?>
 			</select>
@@ -303,10 +307,10 @@ class Skein_Frontend
 	<div class="skein-section skein-color-section">
 		<h3 class="skein-section-title">
 			<?php
-                    printf(
-                        esc_html__('Select Colors (Up to %d)', 'skein-configurator'),
-                        $max_colors
-                    );
+				    printf(
+				        esc_html__('Select Colors (Up to %d)', 'skein-configurator'),
+				        $max_colors
+				    );
         ?>
 		</h3>
 
@@ -329,12 +333,23 @@ class Skein_Frontend
 				<?php for ($i = 1; $i <= $max_colors; $i++): ?>
 				<li class="skein-color-slot empty"
 					data-slot="<?php echo $i; ?>">
-					<span class="slot-edit-icon" title="<?php esc_attr_e('Edit color', 'skein-configurator'); ?>">
-						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor" width="14" height="14"><path d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/></svg>
+					<span class="slot-edit-icon"
+						title="<?php esc_attr_e('Edit color', 'skein-configurator'); ?>">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor" width="14"
+							height="14">
+							<path
+								d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z" />
+						</svg>
 					</span>
-					<span class="slot-name"><?php esc_html_e('Empty', 'skein-configurator'); ?></span>
-					<span class="slot-clear-icon" title="<?php esc_attr_e('Clear color', 'skein-configurator'); ?>">
-						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" fill="currentColor" width="12" height="12"><path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"/></svg>
+					<span
+						class="slot-name"><?php esc_html_e('Empty', 'skein-configurator'); ?></span>
+					<span class="slot-clear-icon"
+						title="<?php esc_attr_e('Clear color', 'skein-configurator'); ?>">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" fill="currentColor" width="12"
+							height="12">
+							<path
+								d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" />
+						</svg>
 					</span>
 				</li>
 				<?php endfor; ?>
