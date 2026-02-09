@@ -481,7 +481,7 @@
     }
 
     .skein-swal-popup .swal-next-slot-option {
-        min-width: 200px;
+        width: 100%;
         padding: 20px 16px;
     }
 }
