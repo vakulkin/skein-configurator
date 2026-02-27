@@ -505,16 +505,3 @@
         padding: 0 10px;
     }
 }
-
-
-/* ============================================
-   Woodmart Slide Cart Customization
-   ============================================ */
-
-.woocommerce-mini-cart-item.mini_cart_item .skein-cart-image-wrapper {
-    margin-right: 15px;
-}
-
-.woocommerce-mini-cart-item.mini_cart_item .skein-cart-image-wrapper img {
-    margin-right: 0;
-}
